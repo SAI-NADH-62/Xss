@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>DOM XSS</title></head>
+<body>
+  <h1>DOM-based XSS</h1>
+  <p>Profile: <span id="name"></span></p>
+  <p>Hint: look at the fragment/hash in the URL (after #)</p>
+  <p id="flag" style="display:none">flag{dom-67890}</p>
+
+  <script>
+    // insecure DOM usage: demonstrates DOM XSS via location.hash
+    const raw = location.hash.slice(1); // everything after '#'
+    // this simulates a naive DOM update: vulnerable
+    document.getElementById('name').innerHTML = raw;
+    window.revealFlag = () => document.getElementById('flag').style.display = 'block';
+  </script>
+</body>
+</html>
