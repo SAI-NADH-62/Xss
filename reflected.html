@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Reflected XSS</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <h1>Reflected XSS</h1>
+  <p>Welcome visitor! Your message:</p>
+  <div id="message"></div>
+
+  <p>Hint: try adding <code>?msg=...</code> to the URL.</p>
+  <p id="flag" style="display:none">flag{reflected-12345}</p>
+
+  <script>
+    // intentionally insecure reflection of URL param (vulnerable)
+    const params = new URLSearchParams(location.search);
+    const msg = params.get('msg') || 'no message';
+    // intentionally using innerHTML so payloads execute
+    document.getElementById('message').innerHTML = msg;
+
+    // reveal flag if a script runs that calls this function
+    window.revealFlag = () => document.getElementById('flag').style.display = 'block';
+  </script>
+</body>
+</html>
